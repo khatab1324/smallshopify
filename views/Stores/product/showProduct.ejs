@@ -1,0 +1,145 @@
+<% layout('layout/boilerplate') %>
+<link rel="stylesheet" href="/stylesheets/stars.css" />
+<div class="container ">
+  <div class="row d-felx align-items-center justify-content-center">
+  <div class="row d-flex align-items-center justify-content-center">
+    <div class="col-lg-4">
+      <div id="storeCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <% product.images.forEach((img, i) => { %>
+          <div class="carousel-item <%= i === 0 ? 'active' : ''%>">
+            <img
+              crossorigin="anonymous"
+              src="<%= img.url%>"
+              class="d-block img-fluid"
+              alt=""
+            />
+          </div>
+          <% }) %>
+        </div>
+        <% if(product.images.length > 1) {%>
+        <a
+          class="carousel-control-prev"
+          href="#storeCarousel"
+          role="button"
+          data-bs-slide="prev"
+        >
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a
+          class="carousel-control-next"
+          href="#storeCarousel"
+          role="button"
+          data-bs-slide="next"
+        >
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+        <% } %>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title"><%= product.title%></h5>
+          
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><p class="card-text"><%= product.description%></p></li>
+          <li class="list-group-item">
+            <a class="card-link btn btn-info" href="/store/<%= product.store %>"
+              >See the store</a
+            >
+          </li>
+        </ul>
+        <div class="card-body">
+          <form action="/wishlist/<%= product.id %>" method="POST">
+            <button
+              class="card-link btn btn-info"
+              id="<%= product.id %>"
+              onClick="reply_click(this.id)"
+            >
+              Add to wishlist
+            </button>
+          </form>
+        </div>
+        <div class="card-footer text-muted">2 days ago</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-8 text-right float-left mt-5">
+    <% //if(currentUser){ %>
+    <h2>Leave a Review</h2>
+    <form
+      action="/store/product/<%=product._id%>/reviews"
+      method="POST"
+      class="mb-3 validated-form"
+      novalidate
+    >
+    <fieldset class="starability-basic">
+      <input
+        type="radio"
+        id="no-rate"
+        class="input-no-rate"
+        name="review[rating]"
+        value="1"
+        checked
+        aria-label="No rating."
+      />
+      <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+      <label for="first-rate1" title="Terrible">1 star</label>
+      <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+      <label for="first-rate2" title="Not good">2 stars</label>
+      <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+      <label for="first-rate3" title="Average">3 stars</label>
+      <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+      <label for="first-rate4" title="Very good">4 stars</label>
+      <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+      <label for="first-rate5" title="Amazing">5 stars</label>
+    </fieldset>
+      <div class="mb-3">
+        <label class="form-label" for="comment">Review Text</label>
+        <textarea
+          class="form-control"
+          name="review[comment]"
+          id="comment"
+          cols="30"
+          rows="3"
+          required
+        ></textarea>
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+      <button class="btn btn-success">Submit</button>
+    </form>
+    <% //} %>
+    <h1 class="">Reviews</h1>
+    <% for(let review of product.ProductReviews) { %>
+      <% console.log(review) %>
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title"><%= review.author.username%></h5>
+          <p class="starability-result" data-rating="<%=review.rating%>">
+            Rated: <%= review.rating %> stars
+          </p>
+          <!-- <h6 class="card-subtitle mb-2 text-muted">By <%= review.author.username%></h6> -->
+          <p class="card-text">Review: <%= review.comment %></p>
+          <% //if( currentUser && review.author.equals(currentUser._id)) {%>
+          <form
+            action="/store/product/<%=product._id%>/reviews/<%=review._id%>?_method=DELETE"
+            method="POST"
+          >
+            <button class="btn btn-sm btn-danger">Delete</button>
+          </form>
+          <% //} %>
+        </div>
+      </div>
+      <% } %>
+  </div>
+
+</div>
+
+</div>
+</div>

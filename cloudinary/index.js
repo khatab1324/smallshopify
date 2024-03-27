@@ -10,7 +10,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary,
   params: {
-    folder: "YelpCamp", //the folder in cloudinary
+    folder: "Stores", //the folder in cloudinary
     allowedFormats: ["jpeg", "png", "jpg"], //the form of image that will saved in cloudinary
     transformation: [
       { width: 400, height: 300, gravity: "auto", crop: "fill" },

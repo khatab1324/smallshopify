@@ -1,0 +1,97 @@
+<% layout('layout/boilerplate') %>
+
+<section style="background-color: #eee">
+  <div class="container py-5">
+    <% if(wishList){ %>
+    <% for(let product of wishList.products ){ %>
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-xl-8">
+        <div class="card shadow-0 border rounded-3">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
+                <div class="bg-image hover-zoom ripple rounded ripple-surface">
+                  <% product.images.forEach((img, i) => { %>
+                  <img src="<%= img.url%>" class="d-block w-100" alt="" />
+                  <% }) %>
+                  <a href="#!">
+                    <div class="hover-overlay">
+                      <div
+                        class="mask"
+                        style="background-color: rgba(253, 253, 253, 0.15)"
+                      ></div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6 col-xl-6">
+                <h5><%= product.title %></h5>
+                <div class="d-flex flex-row">
+                  <div class="text-danger mb-1 me-2">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                  </div>
+                  <span>145</span>
+                </div>
+
+                <p class="text-truncate mb-4 mb-md-0">
+                  <%= product.description %>
+                </p>
+              </div>
+              <div
+                class="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start"
+              >
+                <div class="d-flex flex-row align-items-center mt-5">
+                </div>
+                <div class="d-flex flex-row align-items-center mt-5">
+                  <h4 class="mb-1 me-1">$<%= product.price %></h4>
+
+                  <div class="d-flex flex-column mt-1 mx-4">
+                    <form
+                      action="/wishlist/<%= product.id %>?_method=DELETE"
+                      method="post"
+                    >
+                      <button class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <% } %>
+    <% }else{ %>
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-xl-8">
+          <div class="card shadow-0 border rounded-3">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-12 col-lg-6 col-xl-12 mb-4 mb-lg-0 ">
+                  <h4 class="row justify-content-center">sorry there is no item added</h4>      
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <a href="/stores" class="btn btn-outline-dark btn-sm mt-2 col-xl-6" style="text-decoration: none;"><button class="btn btn-outline-dark btn-sm " style="border: none; color:rgb(0, 166, 255);" type="button">
+          go to stores
+        </button></a>
+        
+      </div>
+      <% } %>
+    <% if(wishList){ %>
+      <div class="row justify-content-center">
+        <button class="btn btn-outline-dark btn-sm mt-2 col-xl-6" type="button">
+          Buy
+        </button>
+      </div>
+      <% } %>
+   
+  </div>
+</section>

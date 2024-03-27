@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body class="position-relative">
+    <%- include("../partials/navbar") %>
+    <!--  -->
+
+    <!--  -->
+    <% for (let storeData of stores){%>
+    <div class="d-inline-block">
+      <div class="card text-center" style="width: 18rem">
+        <div class="carousel-inner">
+          <%if(storeData.images.length) {%><!--if there no image I will pass defult image  -->
+          <img
+            crossorigin="anonymous"
+            class="img-fluid"
+            alt=""
+            src="<%=storeData.images[0].url%>"
+          />
+          <% }else {%>
+          <img
+            crossorigin="anonymous"
+            class="img-fluid"
+            alt=""
+            src="https://res.cloudinary.com/dd4vh5wfd/image/upload/v1692446564/Stores/pfmibpg4uvuq2ruf17eu.jpg"
+          />
+          <% } %>
+        </div>
+
+        <div class="card-body">
+          <h5 class="card-title"><%= storeData.title%></h5>
+          <p class="card-text">
+            Some quick example text to build on the card title and make up the
+            bulk of the card's content.
+          </p>
+          <a href="/store/<%= storeData.id %>" class="btn btn-dark"
+            >Go somewhere</a
+          >
+        </div>
+      </div>
+    </div>
+    <% }%> <%- include("../partials/footer") %>
+    
+  </body>
+</html>

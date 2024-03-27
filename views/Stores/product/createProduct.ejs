@@ -1,0 +1,142 @@
+<% layout('layout/boilerplate') %>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Product</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
+      integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <section class="h-100 gradient-form" style="background-color: #eee">
+      <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-xl-5">
+            <div class="card rounded-3 text-black">
+              <div class="row g-0">
+                <div class="card-body p-md-5 mx-md-4">
+                  <div class="text-center"></div>
+                  <form
+                    action="/store/<%= store.id %>/create-product"
+                    method="post"
+                    class="validated-form needs-validation"
+                    enctype="multipart/form-data"
+                    novalidate
+                  >
+                    <p>Add your product</p>
+                    <div class="form-outline mb-4">
+                      <input
+                        type="title"
+                        id="title"
+                        name="title"
+                        class="form-control"
+                        placeholder="title"
+                        required
+                      />
+                      <div class="valid-feedback">Looks good!</div>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                      <input
+                        type="description"
+                        id="description"
+                        name="description"
+                        placeholder="description"
+                        class="form-control"
+                        required
+                      />
+                      <div class="valid-feedback">Looks good!</div>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                      <input
+                        type="number"
+                        id="quantity"
+                        name="quantity"
+                        placeholder="quantity"
+                        class="form-control"
+                        required
+                      />
+                      <div class="valid-feedback">Looks good!</div>
+                    </div>
+                    <div class="form-outline mb-4">
+                      <input
+                        type="number"
+                        id="price"
+                        name="price"
+                        placeholder="price"
+                        class="form-control"
+                        required
+                      />
+                      <div class="valid-feedback">Looks good!</div>
+                    </div>
+                    <select
+                      class="form-select form-outline mb-4"
+                      aria-label="Default select example"
+                    >
+                      <option selected class="">Open this select menu</option>
+                      <option value="1">One</option>
+                      <option value="2">Two</option>
+                      <option value="3">Three</option>
+                    </select>
+                    <div class="mb-3">
+                      <div class="form-file custom-file">
+                        <input
+                          type="file"
+                          class="form-file-input"
+                          id="images"
+                          name="images"
+                          multiple
+                        />
+                        <label class="form-file-label" for="image">
+                          <span class="form-file-text custom-file-label"
+                            >Choose image(s)...</span
+                          >
+                          <span class="form-file-button">Browse</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div
+                      class="d-flex align-items-center justify-content-center pb-4"
+                    >
+                      <button class="btn btn-outline-danger">Create new</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script>
+      (function () {
+        "use strict";
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll(".needs-validation");
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms).forEach(function (form) {
+          form.addEventListener(
+            "submit",
+            function (event) {
+              if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+
+              form.classList.add("was-validated");
+            },
+            false
+          );
+        });
+      })();
+    </script>
+  </body>
+</html>

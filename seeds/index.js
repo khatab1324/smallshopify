@@ -1,10 +1,9 @@
 const mongoose = require("mongoose");
+const { places, descriptors } = require("./storesSeeds");
 const cities = require("./cities");
-const { places, descriptors } = require("./seedHelper");
-const Campground = require("../models/campground");
-
+const Store = require("../models/store"); //this our schema and remember we are define it before define our data
 mongoose
-  .connect("mongodb://localhost:27017/yelp-camp", {
+  .connect("mongodb://localhost:27017/smallshopify", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -17,43 +16,29 @@ mongoose
   });
 //sample to bike random name
 const sample = (array) => array[Math.floor(Math.random() * array.length)];
-
 const seedDB = async () => {
-  await Campground.deleteMany({});
-  for (let i = 0; i < 400; i++) {
+  await Store.deleteMany({}); //to not overwrite
+  for (let i = 0; i < 4; i++) {
     const random1000 = Math.floor(Math.random() * 1000);
-    const camp = new Campground({
-      author: "64aecbbe3b10db8f74079892",
-      location: `${cities[random1000].city}, ${cities[random1000].state}`,
-      geometry: {
-        type: "Point",
-        coordinates: [
-          cities[random1000].longitude,
-          cities[random1000].latitude,
-        ],
+    const store = new Store({
+      //new form schema
+      storeAdmin: {
+        username: "khatab",
+        email: "khatab@gmail.com",
+        password: "1234",
+        storeData: {
+          image:
+            "https://www.dreamhost.com/blog/wp-content/uploads/2019/06/afa314e6-1ae4-46c5-949e-c0a77f042e4f_DreamHost-howto-prod-descrips-full.jpeg",
+          location: cities[random1000].city,
+          title: `${sample(descriptors)} ${sample(places)}`,
+          description:
+            "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perferendis possimus architecto magni, quia maiores dolor, omnis totam ullam, nulla odio eaque qui perspiciatis et? Quos deleniti non animi fuga ex?",
+          
+        },
       },
-      title: `${sample(descriptors)} ${sample(places)}`,
-      images: [
-        {
-          url: "https://res.cloudinary.com/dd4vh5wfd/image/upload/v1690028730/YelpCamp/azssspzr9zsaebvreymp.jpg",
-          filename: "YelpCamp/azssspzr9zsaebvreymp",
-        },
-        {
-          url: "https://res.cloudinary.com/dd4vh5wfd/image/upload/v1690028730/YelpCamp/prqtlrqg22zi6mfyhfkp.jpg",
-          filename: "YelpCamp/prqtlrqg22zi6mfyhfkp",
-        },
-
-        {
-          url: "https://res.cloudinary.com/dd4vh5wfd/image/upload/v1690028731/YelpCamp/qzoksd3jqxpbefx3uprh.jpg",
-          filename: "YelpCamp/qzoksd3jqxpbefx3uprh",
-        },
-      ],
-
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perferendis possimus architecto magni, quia maiores dolor, omnis totam ullam, nulla odio eaque qui perspiciatis et? Quos deleniti non animi fuga ex?",
-      price: Math.floor(Math.random() * 50) + 1,
+      //there just remain athoer and img and geometry
     });
-    await camp.save();
+    await store.save();
   }
 };
 seedDB().then(() => {

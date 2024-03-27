@@ -1,0 +1,323 @@
+<% layout('layout/boilerplate') %>
+    <style>
+        body {
+            background: #f5f5f5
+        }
+
+        .rounded {
+            border-radius: 1rem
+        }
+
+        .nav-pills .nav-link {
+            color: #555
+        }
+
+        .nav-pills .nav-link.active {
+            color: white
+        }
+
+        input[type="radio"] {
+            margin-right: 5px
+        }
+
+        .bold {
+            font-weight: bold
+        }
+        .custom-input {
+        
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    /* Change border color and add a shadow on focus */
+    .custom-input:focus {
+        border-color: #007bff; /* Change the border color on focus */
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add a shadow on focus */
+    
+    }
+    .modal1  {
+        display: none;
+        /* Add other styling as needed */
+        position: fixed; /* Fixes the modal position */
+        top: 50%; /* Center vertically */
+        left: 50%; /* Center horizontally */
+        transform: translate(-50%, -50%); /* Center the modal */
+        z-index: 9999; /* Set a high z-index to ensure it's above other content */
+        border-radius: 2%;
+      }
+     .modal-content{
+      padding: 10px;
+      border-radius: 2%;
+      background-color: #252331;
+
+    }
+     
+    </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script
+      src="https://kit.fontawesome.com/805e959fd5.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+</head>
+
+
+<!-- 
+    
+ -->
+
+<body>
+<div class="container py-5">
+    <!-- For demo purpose -->
+    <div class="row mb-4">
+        <div class="col-lg-8 mx-auto text-center">
+            <h1 class="display-6">store controler</h1>
+        </div>
+    </div> <!-- End -->
+    <div class="row">
+        <div class="col-lg-6 mx-auto">
+            <div class="card ">
+                <div class="card-header">
+                    <div class="bg-white shadow-sm pt-4  pr-4 pb-2">
+                        <!-- Credit card form tabs -->
+                        <ul role="tablist" class="nav bg-light nav-pills rounded nav-fill mb-3">
+                            <li class="nav-item"> <a data-toggle="pill" href="#store" class="nav-link active "><i class="fa-solid fa-store "></i> your store </a> </li>
+                            <li class="nav-item"> <a data-toggle="pill" href="#products" class="nav-link "><i class="fa-solid fa-cart-shopping"></i> products </a> </li>
+                        </ul>
+                    </div> <!-- End -->
+                    <!-- Credit card form content -->
+                    <div class="tab-content">
+                        <!-- credit card info-->
+                        <div id="store" class="tab-pane fade show active pt-3">
+                            
+                            <form  action="/store/<%= store.id %>"  method="POST"
+                                class="validated-form needs-validation"
+                                enctype="multipart/form-data"
+                                novalidate>
+                                <div class="row">
+                                <div class="form-group col-sm-6"> 
+                                    <label for="title">
+                                        <h6>store title</h6>
+                                    </label> 
+                                   <input type="text" name="title" placeholder="Enter new title" required class="form-control"value="<%= store.title %>">
+                                 </div>
+                                   <div class="col-sm-6">
+                                    <div class="form-group mb-3"> <label>
+                                            <h6>made by </h6>
+                                        </label> <p class="border-bottom border-dark pb-2"><%= store.author.username %></p> </div>
+                                </div>
+                            </div>
+                                   <div class="form-group"> <label for="description ">
+                                        <h6>description</h6>
+                                    </label>
+                                    <div class="input-group"> <input type="text" name="description"  class="form-control " value="<%= store.description %>" required>
+                                       
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <div class="form-group"> <label><span class="hidden-xs">
+                                                    <h6>your location</h6>
+                                                </span></label>
+                                            <div class="input-group"> <input type="text" placeholder="contery" name="" class="form-control"> <input type="text" placeholder="city" name="location" class="form-control" value="<%= store.location %>"> </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="form-group"> <label for="images">
+                                    <h6> add images</h6>
+                                </label>
+                                <div class="input-group"> <input type="file" name="image" id="image" class="form-control " style="
+                                    border-left: none;
+                                    border-top: none;
+                                    border-right: none;
+                                    background-color: rgba(255, 255, 255, 0.01);
+                                    border-radius: 0;
+                                  " multiple></div>
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                      var toggleButton = document.getElementById('toggleButton');
+                                      var imageToShow = document.getElementById('imageToShow');
+                                
+                                      toggleButton.addEventListener('click', function() {
+                                        if (imageToShow.style.display === 'none') {
+                                          imageToShow.style.display = 'block'; // Show the image
+                                        } else {
+                                          imageToShow.style.display = 'none'; // Hide the image
+                                        }
+                                      });
+                                    });
+                                  </script>
+                                <h6 id="toggleButton" class="mt-3 col-3 border " onclick="clickHandle()">delete image</h6>
+                                <div id="imageToShow" style=" display: none;">
+                                    <div class="row row-cols-1 row-cols-md-4 g-4 mb-3">
+                                 <% store.images.forEach((img, i) => { %>
+                                    
+                                    <div class="mb-3 mr-3">
+                                        <div class="card">
+                                          <img class="card-img" style="width: 120px;" src="<%= img.url %>" alt="" />
+                                          <div class="card-img-overlay text-end pt-1 pe-2">
+                                            <label class="visually-hidden mr-2"  for="image-<%= i %>"
+                                              ></label
+                                            >
+                                            <input
+                                              class="form-check-input"
+                                              type="checkbox"
+                                              name="deleteImages[]"
+                                              value="<%= img.filename %>"
+                                              id="image-<%= i %>"
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    <% }) %>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                                <div class="card-footer"> <h1 id="loginButton" class="subscribe btn btn-dark btn-block shadow-sm">Update Store </h1>
+                                    <div id="loginModal" class="modal1">
+                                        <div class="modal-content " style="background-color: #252331;">
+                                          <span class="close d-flex text-white" id="closeModal"><h3>&times;</h3></span>
+                                          <h2 class="d-flex justify-content-center text-white">confirm delete store</h2>
+                                          <p class="display-6 blockquote-footer mt-4 text-white">are you sure for update this store with title <i class="text-danger"><%= store.title %></i> 
+                                          if you remove this store , all the info above will be ubdated
+                                          </p>
+                                         
+                                                <div class="d-flex justify-content-center">
+                                                  <!--fix the buttom , the buttom enter on input when the screen minmized  -->
+                                            <label for="password" class="text-white ">Password:</label>
+                                            <div class=" row pb-3">
+                                            <div class="col-8 ">
+                                                <input type="password" id="pin" name="pin"  required />
+                                            </div>
+                                            <div class="col-sm-4 d-flex justify-content-center  ">  
+                                                <button  class="subscribe btn btn-danger btn-block shadow-sm d-flex justify-content-center">update store </button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        </div>
+                                      </div>
+                            </form>
+                        </div>
+                    </div> <!-- End -->
+                    <!-- products info -->
+                    <div id="products" class="tab-pane fade pt-3">
+                    <% if(store.products.length >=1){ %>
+                        <div class="row">
+                            <div class="form-group col-sm-6"> 
+                                <label for="username">
+                                    <h6>Number of proucts</h6>
+                                </label> 
+                               <input type="text" name="username" placeholder="Enter new title" required class="form-control"value="<%= store.products.length %>">
+                             </div>
+                               <div class="col-sm-6">
+                                <div class="form-group mb-3"> <label>
+                                        <h6> Amount of capital </h6>
+                                    </label> <input type="text" required class="form-control"value="<%= capital %>" > </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-6"> 
+                                <label for="username">
+                                    <h6>Number of customer</h6>
+                                </label> 
+                                <input type="number" name="customerNumber" placeholder="enter the new description" class="form-control" value="<%= 0 %>" required>
+                             </div>
+                               <div class="col-sm-6">
+                                <div class="form-group mb-3">
+                                     <label>
+                                        <h6> selles </h6>
+                                    </label> <input type="number" name="selles" placeholder="enter the new description" class="form-control" value="<%= 0 %>" required> </div>
+                            </div>
+                        </div>
+                            <div class="card-footer"> 
+                                <form action="/store/<%= store.id %>/showProducts" method="get">
+                                <button  class="subscribe btn btn-dark btn-block shadow-sm">show products </button>
+                            </form>
+                    <%}else{  %>
+                        <div class="row d-flex justify-content-center">
+                            <div class="form-group col-sm-6 "> 
+                                
+                                <form action="/store/<%= store.id %>/create-product" method="get">
+                                    <button class="subscribe btn btn-dark btn-block shadow-sm"> add prodcut</button>
+                                </form>
+                            
+                             </div>
+                    <% } %>
+                    </div> <!-- End -->
+                   
+                    <!-- End -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<% if(store){ %>
+
+    <!-- Your page content continues here -->
+
+    <!-- JavaScript to show/hide the modal -->
+    <script>
+      // Get the modal
+      var modal = document.getElementById("loginModal");
+
+      // Get the button that opens the modal
+      var loginButton = document.getElementById("loginButton");
+
+      // Get the <span> element that closes the modal
+      var closeModal = document.getElementById("closeModal");
+
+      // When the user clicks the login button, open the modal
+      loginButton.onclick = function () {
+        modal.style.display = "block";
+      };
+
+      // When the user clicks on <span> (x), close the modal
+      closeModal.onclick = function () {
+        modal.style.display = "none";
+      };
+
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
+    </script>
+<% } %>
+<script>
+    $(function() {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+<script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    (function () {
+      "use strict";
+
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      var forms = document.querySelectorAll(".needs-validation");
+
+      // Loop over them and prevent submission
+      Array.prototype.slice.call(forms).forEach(function (form) {
+        form.addEventListener(
+          "submit",
+          function (event) {
+            if (!form.checkValidity()) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+
+            form.classList.add("was-validated");
+          },
+          false
+        );
+      });
+    })();
+  </script>
