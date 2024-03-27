@@ -1,0 +1,12 @@
+<% layout('layout/boilerplate')%>
+<div class="row">
+  <div class="col-6 offset-3">
+    <div class="alert alert-danger" role="alert">
+      <h4 class="alert-heading"><%=err.message%></h4>
+      <%if (process.env.NODE_ENV !== "production") { %><!--if you are work on develop mode the error stak will shown to you becuase we have to access to token but if you write  in terminal NODE_ENV !== production node app.js //note : your server should be turn off it will freaks out because we don't have access to token any more -->
+      <!-- token exist in .env  -->
+      <p><%= err.stack %></p>
+      <% } %>
+    </div>
+  </div>
+</div>
